@@ -3,21 +3,21 @@ import sys
 from struct import *
 
 class Packet(object):
-	def __init__(self, name):
-		self.name = name
-		self.innerPackets = []
+    def __init__(self, name, innerPackage):
+        self.name = name
+        self.innerPacket = innerPackage
 
-	def getName(self):
-		return self.name
+    def getName(self):
+        return self.name
 
-	def addPacket(self, pct):
-		self.innerPackets.append(pct)
+    def addPacket(self, pct):
+        self.innerPacket = pct
 
-	def pack(self):
-		packet = ""
-		for item in enumerate(self.innerPackets):
-			packet += item.pack(self)
-		return packet
+    def pack(self):
+        return self.innerPacket.pack()
 
-	def unpack(self):
-		print "Unpack not implemented"
+    def checksum(self):
+        return self.innerPacket.checksum()
+
+    def unpack(self):
+        print "Unpack not implemented"

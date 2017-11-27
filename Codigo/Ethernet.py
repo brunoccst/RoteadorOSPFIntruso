@@ -1,8 +1,8 @@
 from Packet import Packet
 
 class Ethernet(Packet):
-    def __init__(self):
-        Packet.__init__(self, "IPV4")
+    def __init__(self, innerPackage):
+        Packet.__init__(self, "IPV4", innerPackage)
         self.src = None
         self.dst = None
         self.eth_type = 0x0800  # ipv4

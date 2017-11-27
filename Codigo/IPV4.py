@@ -1,8 +1,8 @@
 from Packet import Packet
 
 class IPV4(Packet):
-    def __init__(self):
-        Packet.__init__(self, "IPV4")
+    def __init__(self, innerPackage):
+        Packet.__init__(self, "IPV4", innerPackage)
         self.version_ihl = (4 << 4) + 5
         self.tos = 0
         self.total_length = 20
