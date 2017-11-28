@@ -1,5 +1,9 @@
 import socket
 
+# ospf type
+OSPF_HELLO = 1
+OSPF_DBD = 2
+
 # config
 MAX_INT = 0xc0a80a05 #4294967295
 PROTOCOL = socket.AF_INET

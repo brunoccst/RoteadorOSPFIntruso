@@ -153,8 +153,10 @@ class PackageManager(object):
         data = None
         if (ospfType == 1):
             data = self.buildOspfHello([socket.inet_aton(DST_ID)])
-        else:
+        elif (ospfType == 2):
             data = self.buildOspfDBD()
+        else:
+            raise Exception("Tipo de OSPF nao suportado")
 
         # Monta header UDP
         ospfHeader = self.buildOspf(ospfType, data)

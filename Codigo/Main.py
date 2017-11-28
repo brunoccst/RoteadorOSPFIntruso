@@ -22,7 +22,7 @@ if __name__ == "__main__":
         sys.exit()
 
     packageManager = PackageManager(SRC_MAC, SRC_IP, SRC_PORT, INTERFACE_NAME)
-    packet = packageManager.buildFullPack(DST_MAC, DST_IP, DST_PORT, 1)
+    packet = packageManager.buildFullPack(DST_MAC, DST_IP, DST_PORT, OSPF_HELLO)
     print packet
 
     s.sendto(packet, (INTERFACE_NAME, 0))
