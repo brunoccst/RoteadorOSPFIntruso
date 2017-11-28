@@ -31,6 +31,7 @@ if __name__ == "__main__":
 
     # Envia 10 pacotes de DBD
     for i in range(0, 10):
+        time.sleep(0.1)
         if (i == 10):
             packet = packageManager.buildFullPack(DST_MAC, DST_IP, DST_PORT, OSPF_DBD, True)
         else:

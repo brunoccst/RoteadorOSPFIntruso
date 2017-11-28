@@ -89,7 +89,7 @@ class PackageManager(object):
         ospf_version = 2
         ospf_type = ospfType
         ospf_length = 24 + len(data)
-        ospf_router_id = 0xffffff
+        ospf_router_id = 0xffffffff
         ospf_area_id = 0
         ospf_checksum = 0
         ospf_auth_type = 0
