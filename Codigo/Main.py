@@ -4,7 +4,7 @@ import os
 import sys
 from PackageManager import *
 from Constants import *
-
+import time
 
 """
     Metodo principal.
@@ -21,8 +21,23 @@ if __name__ == "__main__":
         print 'Falha na criacao do socket. Codigo de error : ' + str(msg[0]) + ' Mensagem ' + msg[1]
         sys.exit()
 
-    packageManager = PackageManager(SRC_MAC, SRC_IP, SRC_PORT, INTERFACE_NAME)
-    packet = packageManager.buildFullPack(DST_MAC, DST_IP, DST_PORT, OSPF_HELLO)
-    print packet
 
+    packageManager = PackageManager(SRC_MAC, SRC_IP, SRC_PORT, INTERFACE_NAME)
+
+    # Envia o pacote de HELLO
+    packet = packageManager.buildFullPack(DST_MAC, DST_IP, DST_PORT, OSPF_HELLO)
     s.sendto(packet, (INTERFACE_NAME, 0))
+
+    # Envia 10 pacotes de DBD
+    for (i in range(0, 10)):
+        if (i == 10):
+            packet = packageManager.buildFullPack(DST_MAC, DST_IP, DST_PORT, OSPF_DBD, True)
+        else:
+            packet = packageManager.buildFullPack(DST_MAC, DST_IP, DST_PORT, OSPF_DBD, False)
+        s.sendto(packet, (INTERFACE_NAME, 0))
+
+    # Envia o pacote de HELLO constantemente a cada 10 segundos
+    while (True):
+        packet = packageManager.buildFullPack(DST_MAC, DST_IP, DST_PORT, OSPF_HELLO)
+        s.sendto(packet, (INTERFACE_NAME, 0))
+        time.sleep(10)

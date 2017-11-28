@@ -16,6 +16,7 @@ class PackageManager(object):
         self.IP         = ip
         self.Port       = port
         self.Interface  = interface
+        self.currentDBD = 0
 
     """
         Monta o cabecalho Ethernet.
@@ -123,10 +124,14 @@ class PackageManager(object):
     """
         Monta o cabecalho OSPF DBD.
     """
-    def buildOspfDBD(self, sequence):
+    def buildOspfDBD(self, sequence, initial=False, more = False):
         ospf_mtu = 1500
-        ospf_options = 0
-        ospf_flags = 0
+        ospf_options = 2
+        ospf_flags = 1
+        if initial:
+            ospf_flags += 0b100
+        if more:
+            ospf_flags += 0b10
         ospf_sequence = sequence
 
         return pack('!HBBI', self.mtu, self.options, self.flags, self.sequence)
@@ -147,14 +152,20 @@ class PackageManager(object):
     """
         Constroi o pacote completo Ethernet-IPv4-UDP com as informacoes fornecidas.
     """
-    def buildFullPack(self, dstMac, dstIp, dstPort, ospfType):
+    def buildFullPack(self, dstMac, dstIp, dstPort, ospfType, finalPackage = False):
 
         # Monta a mensagem (Hello ou DBD)
         data = None
         if (ospfType == 1):
             data = self.buildOspfHello([socket.inet_aton(DST_ID)])
         elif (ospfType == 2):
-            data = self.buildOspfDBD()
+            if (self.currentDBD == 0):            
+                data = self.buildOspfDBD(self.currentDBD, True, True)
+            elif (finalPackage):            
+                data = self.buildOspfDBD(self.currentDBD, False, False)
+            else:
+                data = self.buildOspfDBD(self.currentDBD, False, True)
+            self.currentDBD = self.currentDBD + 1
         else:
             raise Exception("Tipo de OSPF nao suportado")
 
