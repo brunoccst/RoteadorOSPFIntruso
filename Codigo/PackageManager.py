@@ -134,7 +134,7 @@ class PackageManager(object):
             ospf_flags += 0b10
         ospf_sequence = sequence
 
-        return pack('!HBBI', self.mtu, self.options, self.flags, self.sequence)
+        return pack('!HBBI', ospf_mtu, ospf_options, ospf_flags, ospf_sequence)
 
     """
         Calcula o checksum de um pacote.

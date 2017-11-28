@@ -27,17 +27,21 @@ if __name__ == "__main__":
     # Envia o pacote de HELLO
     packet = packageManager.buildFullPack(DST_MAC, DST_IP, DST_PORT, OSPF_HELLO)
     s.sendto(packet, (INTERFACE_NAME, 0))
+    print "Pacote HELLO enviado"
 
     # Envia 10 pacotes de DBD
-    for (i in range(0, 10)):
+    for i in range(0, 10):
         if (i == 10):
             packet = packageManager.buildFullPack(DST_MAC, DST_IP, DST_PORT, OSPF_DBD, True)
         else:
             packet = packageManager.buildFullPack(DST_MAC, DST_IP, DST_PORT, OSPF_DBD, False)
         s.sendto(packet, (INTERFACE_NAME, 0))
+        print "Pacote DBD ", packageManager.currentDBD, " enviado"
 
     # Envia o pacote de HELLO constantemente a cada 10 segundos
     while (True):
         packet = packageManager.buildFullPack(DST_MAC, DST_IP, DST_PORT, OSPF_HELLO)
         s.sendto(packet, (INTERFACE_NAME, 0))
+        print "Pacote HELLO enviado"
         time.sleep(10)
+
